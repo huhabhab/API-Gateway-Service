@@ -1,0 +1,34 @@
+server:
+  port: &serverPort 2000
+
+spring:
+  application:
+    name: service-url  # Your application name
+  config:
+    import: configserver:http://localhost:8888
+  cloud:
+    config:
+      uri: http://localhost:8888  # Config Server URL
+      enabled: true  # Enable Spring Cloud Config
+      monitor:
+        enabled: true
+
+# configure the actuator endpoints
+management:
+  server:
+    port: *serverPort
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,refresh
+  endpoint:
+    health:
+      show-details: always
+    info:
+      enabled: 'true'
+
+logging:
+  file: ./logs/app.log
+  #level:
+  #  org.springframework.boot.context.config.ConfigDataLoader: ERROR
+
